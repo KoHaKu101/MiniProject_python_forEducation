@@ -1,0 +1,52 @@
+{% include 'master/base.html' %}
+{% load static %}
+{% block MainContent %}
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0">แก้ไขแผนกงาน</h1>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <section class="content">
+            <div class="container-fluid">
+                <!-- Small boxes (Stat box) -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <form action="{% url 'update_department' dep_id %}" method="POST">
+                                {% csrf_token %}
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            {{ form }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <button class="btn btn-success float-right" type="submit">
+                                                <i class="fas fa-save"></i>
+                                                แก้ไข
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.row -->
+                <!-- Main row -->
+                <!-- /.row (main row) -->
+            </div><!-- /.container-fluid -->
+        </section>
+    </div>
+
+
+{% endblock %}
+

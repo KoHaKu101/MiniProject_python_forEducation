@@ -1,0 +1,90 @@
+{% include 'master/base.html' %}
+{% load static %}
+{% block MainContent %}
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2 justify-content-center">
+                    <div class="col-sm-8">
+                        <h1 class="m-0">รายการแผนกทั้งหมด</h1>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <section class="content">
+            <div class="container-fluid">
+                <!-- Small boxes (Stat box) -->
+                <div class="row justify-content-center">
+                    <div class="col-md-8 ">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <form action="#">
+                                            <div class="input-group">
+                                                <input type="search" class="form-control form-control-sm" placeholder="ตำแหน่ง">
+                                                <div class="input-group-append">
+                                                    <button type="submit" class="btn btn-sm btn-default">
+                                                        <i class="fa fa-search"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <a href="{% url 'add_department' %}" class="btn btn-info btn-sm float-right">
+                                            <i class="fas fa-plus"></i>
+                                            เพิ่มแผนก
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <table class="table table-bordered table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th >รหัสตำแหน่ง</th>
+                                                    <th >ตำแหน่ง</th>
+                                                    <th >สถานะ</th>
+                                                    <th width="12%"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for key in context %}
+                                                    <tr>
+                                                    <td>{{ key.dep_name }}</td>
+                                                    <td>{{ key.dep_id }}</td>
+                                                        {% if key.dep_status == True %}
+                                                        <td><span class="badge badge-pill badge-success">เปิดใช้งาน</span></td>
+                                                            {% else %}
+                                                            <td><span class="badge badge-pill badge-danger">ปิด</span></td>
+                                                        {% endif %}
+                                                    <td>
+                                                        <a href="{% url 'update_department' key.dep_id %}" class="btn btn-warning" >
+                                                            <i class="fas fa-pencil"></i>
+                                                        </a>
+                                                        <a href="{% url 'delete_department' key.dep_id %}" class="btn btn-danger" >
+                                                            <i class="fas fa-trash"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                {% endfor %}
+
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.row -->
+                <!-- Main row -->
+                <!-- /.row (main row) -->
+            </div><!-- /.container-fluid -->
+        </section>
+    </div>
+{% endblock %}

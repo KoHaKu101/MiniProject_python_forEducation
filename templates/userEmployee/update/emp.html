@@ -1,0 +1,228 @@
+{% include 'master/base.html' %}
+{% load static %}
+{% block MainContent %}
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0">เพิ่มพนักงาน</h1>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <section class="content">
+            <div class="container-fluid">
+                <!-- Small boxes (Stat box) -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <form action="{% url 'updateemp' id %}" method="POST" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-3 mr-5">
+                                            {% if img_profile == "" %}
+                                                <img src="{% static 'images/notfoundimg.jpg' %}" id="imgShow"
+                                                     width="100%" class="mb-3">
+                                            {% else %}
+                                                <img src="{% static img_profile %}" id="imgShow"
+                                                     width="100%" class="mb-3">
+                                            {% endif %}
+                                            <div class="form-group my-2">
+                                                {{ form.img_profile }}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label for="firstname">รหัสพนักงาน</label>
+                                                        <input type="text" class="form-control" readonly value="{{ id }}">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label for="firstname">รหัสบัตรประจำตัวประชาชน</label>
+                                                        {{ form.id_code }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-5 ">
+                                                    <div class="form-group">
+                                                        <label for="firstname">ชื่อ</label>
+                                                        {{ form.first_name }}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-5 ">
+                                                    <div class="form-group">
+                                                        <label for="surname">นามสกุล</label>
+                                                        {{ form.sur_name }}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2 ">
+                                                    <div class="form-group">
+                                                        <label for="birthday">วัน/เดือน/ปี เกิด</label>
+                                                        {{ form.birthday }}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row mb-3">
+                                                <div class="col-md-1">
+                                                    <label for="birthday">เพศ</label>
+                                                    <div class="form-group form-check ">
+                                                        <div class="form-check">
+                                                            {{ form.gender }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="birthday">สัญชาติ</label>
+                                                        {{ form.national }}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="birthday">เชื้อชาติ</label>
+                                                        {{ form.ethnicity }}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="birthday">ศาสนา</label>
+                                                        {{ form.religion }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label for="birthday">ที่อยู่</label>
+                                                        {{ form.address }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="birthday">ตำบล</label>
+                                                        {{ form.subdistrict }}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="birthday">อำเภอ</label>
+                                                        {{ form.district }}
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="birthday">จังหวัด</label>
+                                                        {{ form.Province }}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="birthday">รหัสไปรษณีย์</label>
+                                                        {{ form.postcode }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="birthday">เบอร์โทรศัพท์</label>
+                                                        {{ form.tel }}
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="birthday">Email</label>
+                                                        {{ form.email }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="birthday">ตำแหน่ง</label>
+                                                        {{ form.appointment }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="birthday">แผนก</label>
+                                                        {{ form.department }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="birthday">ชื่อผู้ใช้</label>
+                                                        {{ form.username }}
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="row" hidden>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="password">รหัสผ่าน</label>
+                                                        {{ form.password }}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <button class="btn btn-success float-right" type="submit">
+                                                    <i class="fas fa-save"></i>
+                                                    เพิ่มรายการ
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.row -->
+                <!-- Main row -->
+                <!-- /.row (main row) -->
+            </div><!-- /.container-fluid -->
+        </section>
+    </div>
+
+
+{% endblock %}
+{% block javaScipt %}
+    <script>
+        function readimg(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#imgShow').attr('src', e.target.result).width("100%");
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,94 @@
+{% include 'master/base.html' %}
+{% load static %}
+{% block MainContent %}
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0">รายการพนักงานทั้งหมด</h1>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <section class="content">
+            <div class="container-fluid">
+                <!-- Small boxes (Stat box) -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <form action="#">
+                                            <div class="input-group">
+                                                <input type="search" class="form-control form-control-sm" placeholder="รหัสพนักงาน หรือ ชื่อพนักงาน">
+                                                <div class="input-group-append">
+                                                    <button type="submit" class="btn btn-sm btn-default">
+                                                        <i class="fa fa-search"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="col-md">
+                                        <a href="{% url 'add_emp' %}" class="btn btn-info btn-sm float-right">
+                                            <i class="fas fa-plus"></i>
+                                            เพิ่มพนักงาน
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <table class="table table-bordered table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center" width="15%">รูปพนักงาน</th>
+                                                    <th>รหัสพนักงาน</th>
+                                                    <th>ชื่อ-นามสกุล</th>
+                                                    <th>ตำแหน่ง</th>
+                                                    <th>แผนก</th>
+                                                    <th width="15%">action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                {% for key in data %}
+                                                    {% if key.img_profile is None %}
+                                                        <td class="text-center"><img src="{% static key.img_profile  %}"width="100%"></td>
+                                                    {% else %}
+                                                        <td class="text-center"><img src="{% static 'images/notfoundimg.jpg' %}" width="100%"></td>
+                                                    {% endif %}
+                                                <td>{{ key.id }}</td>
+                                                <td>{{ key.first_name }} {{ key.surname  }}</td>
+                                                <td>{{ key.appointment.app_name }}</td>
+                                                <td>{{ key.department.dep_name }}</td>
+                                                    <td>
+                                                    <a href="{% url 'update_emp' key.id %}" class="btn btn-warning">
+                                                        <i class="fas fa-pencil"></i>
+                                                    </a>
+                                                    <a href="{% url 'deleate_emp' key.id %}" class="btn btn-danger">
+                                                        <i class="fas fa-trash"></i>
+                                                    </a>
+                                                    </td>
+                                                {% endfor %}
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.row -->
+                <!-- Main row -->
+                <!-- /.row (main row) -->
+            </div><!-- /.container-fluid -->
+        </section>
+    </div>
+
+
+{% endblock %}

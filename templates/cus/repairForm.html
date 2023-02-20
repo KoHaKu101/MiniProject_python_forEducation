@@ -1,0 +1,85 @@
+{% include 'master/cus/base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="main-wrapper cart-drawer-push">
+        {% include 'master/cus/header.html' %}
+        <main class="main-content">
+            <!-- Start Breadcrumb -->
+            <div class="breadcrumbs text-center">
+                <div class="container">
+                    <h1>แจ้งอาการชำรุดเบื้องต้น</h1>
+                </div>
+            </div>
+            <!-- End Breadcrumb -->
+            <!-- Start Register Account -->
+            <div class="create-account">
+                <div class="container">
+                    <div class="row row-sp" >
+                        <div class="col-sp col-12 col-sm-12 col-md-12 col-lg-12">
+                            <form action="{% url 'cus_repair_form' %}" class="register-form needs-validation"
+                                  method="POST" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="row" >
+                                    <div class="col-sm-3 mr-5">
+                                        <img src="{% static 'images/notfoundimg.jpg' %}" id="imgShow" width="100%"
+                                             class="mb-3">
+                                        <div class="form-group my-2">
+                                            {{ form.order_img }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <div class="row">
+                                            <div class="form-group col-sm-12">
+                                                <label>หัวข้อ *</label>
+                                                {{ form.title }}
+                                                <div class="invalid-feedback">กรุณากรอกหัวข้อ.</div>
+                                            </div>
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-sm-12">
+                                                <label>คำอธิบาย *</label>
+                                                {{ form.desc }}
+                                                <div class="invalid-feedback">กรุณากรอกคำอธิบาย.</div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-sm-12">
+                                                <label>เบอร์โทรติดต่อ *</label>
+                                                {{ form.tel_order }}
+                                                <div class="invalid-feedback">กรุณากรอกเบอร์โทรติดต่อ.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group button-action mt-1 mt-sm-5 clearfix text-center">
+                                    <button type="submit" class="account-create btn btn-secondary">
+                                        <i class="fas fa-paper-plane"></i>
+                                        ส่ง
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Register Account -->
+        </main>
+        <div id="scrollTop"><i class="ti-arrow-up"></i></div>
+        <div class="overlay"></div>
+    </div>
+    {% include 'master/cus/javaScipt.html' %}
+        <script>
+        function readimg(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#imgShow').attr('src', e.target.result).width("100%");
+                };
+
+                reader.readAsDataURL(input.files[0]);
+        }
+            }
+    </script>
+{% endblock %}

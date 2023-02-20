@@ -10795,7 +10795,7 @@ diagram-project:
     - 6.0.0-beta3
     - 6.2.0
     - 6.3.0
-  label: Diagram Project
+  label: Diagram Project_Cus
   search:
     terms:
       - chart
@@ -28284,7 +28284,7 @@ r-project:
   changes:
     - 5.0.11
     - 5.0.12
-  label: R Project
+  label: R Project_Cus
   search:
     terms: []
   styles:

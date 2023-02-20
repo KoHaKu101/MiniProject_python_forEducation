@@ -24,10 +24,10 @@ class tooltype(models.Model):
 class tool(models.Model):
     tool_id = models.CharField(max_length=10,primary_key=True)
     tool_name = models.CharField(max_length=100,unique=True)
-    tool_price = models.BooleanField(null=False,default='True')
+    tool_price = models.FloatField(default=0.00,null=False)
     tool_type = models.ForeignKey(tooltype,on_delete=models.CASCADE,default=None)
     tool_des = models.TextField(null=True, blank=True, default="")
-    tool_img = models.ImageField(upload_to="static/images/employee/",blank=True, null=True,default="")
+    tool_img = models.ImageField(upload_to="static/images/tool/",blank=True, null=True,default="")
 class employee(models.Model):
     id = models.CharField(max_length=10,primary_key=True)
     id_code = models.CharField(max_length=13,unique=True)

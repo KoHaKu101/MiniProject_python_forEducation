@@ -1,4 +1,4 @@
-{% include 'master/base.html' %}
+{% include 'master/user/base.html' %}
 {% load static %}
 {% block MainContent %}
     <div class="content-wrapper">
@@ -6,7 +6,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">รายการอุปกรณ์ทั้งหมด</h1>
+                        <h1 class="m-0">รายการ เครื่องมือช่าง/อุปกรณ์ทั้งหมด</h1>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
             </div><!-- /.container-fluid -->
@@ -22,7 +22,8 @@
                                     <div class="col-md-10">
                                         <form action="#">
                                             <div class="input-group">
-                                                <input type="search" class="form-control form-control-sm" placeholder="รหัสพนักงาน หรือ ชื่อพนักงาน">
+                                                <input type="search" class="form-control form-control-sm"
+                                                       placeholder="รหัสพนักงาน หรือ ชื่อพนักงาน">
                                                 <div class="input-group-append">
                                                     <button type="submit" class="btn btn-sm btn-default">
                                                         <i class="fa fa-search"></i>
@@ -32,7 +33,7 @@
                                         </form>
                                     </div>
                                     <div class="col-md">
-                                        <a href="{% url 'add_emp' %}" class="btn btn-info btn-sm float-right">
+                                        <a href="{% url 'add_tool' %}" class="btn btn-info btn-sm float-right">
                                             <i class="fas fa-plus"></i>
                                             เพิ่มอุปกรณ์
                                         </a>
@@ -44,38 +45,43 @@
                                     <div class="col-md-12">
                                         <table class="table table-bordered table-hover">
                                             <thead>
-                                                <tr>
-                                                    <th class="text-center" width="15%">รูป</th>
-                                                    <th>รหัส</th>
-                                                    <th>ชื่อ</th>
-                                                    <th>ราคา</th>
-                                                    <th>ประเภท</th>
-                                                    <th>คำอธิบาย</th>
-                                                    <th width="15%">action</th>
-                                                </tr>
+                                            <tr>
+                                                <th class="text-center" width="15%">รูป</th>
+                                                <th>รหัส</th>
+                                                <th>ชื่อ</th>
+                                                <th>ราคา</th>
+                                                <th>ประเภท</th>
+                                                <th>คำอธิบาย</th>
+                                                <th width="15%">action</th>
+                                            </tr>
                                             </thead>
                                             <tbody>
                                             <tr>
-{#                                                {% for key in data %}#}
-{#                                                    {% if key.img_profile is None %}#}
-{#                                                        <td class="text-center"><img src="{% static key.img_profile  %}"width="100%"></td>#}
-{#                                                    {% else %}#}
-{#                                                        <td class="text-center"><img src="{% static 'images/notfoundimg.jpg' %}" width="100%"></td>#}
-{#                                                    {% endif %}#}
-{#                                                <td>{{ key.id }}</td>#}
-{#                                                <td>{{ key.first_name }} {{ key.surname  }}</td>#}
-{#                                                <td>{{ key.appointment.app_name }}</td>#}
-{#                                                <td>{{ key.department.dep_name }}</td>#}
-{#                                                    <td>#}
-{#                                                    <a href="{% url 'update_emp' key.id %}" class="btn btn-warning">#}
-{#                                                        <i class="fas fa-pencil"></i>#}
-{#                                                    </a>#}
-{#                                                    <a href="{% url 'deleate_emp' key.id %}" class="btn btn-danger">#}
-{#                                                        <i class="fas fa-trash"></i>#}
-{#                                                    </a>#}
-{#                                                    </td>#}
-{#                                                {% endfor %}#}
+                                                {% for key in data %}
+                                                    {% if key.tool_img == "" %}
+                                                        <td class="text-center"><img
+                                                                src="{% static 'images/notfoundimg.jpg' %}"
+                                                                width="100%"></td>
+                                                    {% else %}
+                                                        <td class="text-center"><img src="{% static key.tool_img.name %}"width="100%"></td>
+                                                    {% endif %}
+                                                    <td>{{ key.tool_id }}</td>
+                                                    <td>{{ key.tool_name }}</td>
+                                                    <td>{{ key.tool_price }}</td>
+                                                    <td>{{ key.tool_type }}</td>
+                                                    <td>{{ key.tool_des }}</td>
+                                                    <td>
+                                                        <a href="{% url 'update_tool' key.tool_id %}"
+                                                           class="btn btn-warning">
+                                                            <i class="fas fa-pencil"></i>
+                                                        </a>
+                                                        <a href="{% url 'deleate_tool' key.tool_id %}"
+                                                           class="btn btn-danger">
+                                                            <i class="fas fa-trash"></i>
+                                                        </a>
+                                                    </td>
                                             </tr>
+                                                {% endfor %}
                                             </tbody>
                                         </table>
                                     </div>

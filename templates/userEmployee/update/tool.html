@@ -1,0 +1,110 @@
+{% include 'master/user/base.html' %}
+{% load static %}
+{% block MainContent %}
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0">แก้ไข เครื่องมือช่าง/อุปกรณ์ทั้งหมด</h1>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <section class="content">
+            <div class="container-fluid">
+                <!-- Small boxes (Stat box) -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <form action="{% url 'update_tool' tool_id %}" method="POST" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-3 mr-5">
+                                            {% if tool_img == "" %}
+                                                <img src="{% static 'images/notfoundimg.jpg' %}" id="imgShow"
+                                                     width="100%" class="mb-3">
+                                            {% else %}
+                                                <img src="{% static tool_img %}" id="imgShow"
+                                                     width="100%" class="mb-3">
+                                            {% endif %}
+                                            <div class="form-group my-2">
+                                                {{ form.tool_img }}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                   <div class="form-group">
+                                                        <label for="firstname">ชื่ออุปกรณ์</label>
+                                                        {{ form.tool_name }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6 ">
+                                                    <div class="form-group">
+                                                        <label for="firstname">ราคา</label>
+                                                        {{ form.tool_price }}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 ">
+                                                    <div class="form-group">
+                                                        <label for="surname">ประเภทอุปกรณ์</label>
+                                                        {{ form.tool_type }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label >คำอธิบาย</label>
+                                                        {{ form.tool_des }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                    <div class="card-footer">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <a class="btn btn-danger " href="{% url 'list_tool' %}" >
+                                                    <i class="fas fa-times"></i>
+                                                    ยกเลิก
+                                                </a>
+                                                <button class="btn btn-success float-right" type="submit">
+                                                    <i class="fas fa-save"></i>
+                                                    เพิ่มรายการ
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.row -->
+                <!-- Main row -->
+                <!-- /.row (main row) -->
+            </div><!-- /.container-fluid -->
+        </section>
+    </div>
+
+
+{% endblock %}
+{% block javaScipt %}
+    <script>
+        function readimg(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#imgShow').attr('src', e.target.result).width("100%");
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
+{% endblock %}

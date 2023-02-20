@@ -58,15 +58,6 @@ class empForm(forms.ModelForm):
     def updateForm(self):
         self.fields['id_code'].widget.attrs['readonly'] = True
         self.fields['password'].widget.attrs['hidden'] = True
-
-        # def deleteForm(self):
-        #     self.fields['pid'].widget.attrs['readonly'] = True
-        #     self.fields['name'].widget.attrs['readonly'] = True
-        #     self.fields['category'].widget.attrs['readonly'] = True
-        #     self.fields['price'].widget.attrs['readonly'] = True
-        #     self.fields['net'].widget.attrs['readonly'] = True
-        #     self.fields['picture'].widget.attrs['readonly'] = True
-
 class appointmentForm(forms.ModelForm):
     List_bool = [('True', 'เปิด'), ('False', 'ปิด')]
     app_status = forms.TypedChoiceField(choices=List_bool,widget=forms.RadioSelect)
@@ -102,10 +93,28 @@ class tooltypeForm(forms.ModelForm):
         model = tooltype
         fields = ('tooly_name','tooly_des','tooly_status')
         widgets = {
-            'tooly_name': forms.TextInput(attrs={'class': 'form-control', 'maxlength': 100}),
+            'tooly_name': forms.TextInput(attrs={'class': 'form-control', 'maxlength': '100'}),
             'tooly_des': forms.Textarea(attrs={'class': 'form-control', 'row': 2}),
         }
         labels = {
             'tooly_name':'ชื่อประเภทเครื่องมือช่าง / อุปกรณ์ทั้งหมด',
             'tooly_des':'คำอธิบายประเภท'
+        }
+class toolForm(forms.ModelForm):
+    class Meta:
+        model = tool
+        fields = ('tool_name','tool_price','tool_type','tool_des','tool_img')
+        widgets = {
+            'tool_name':forms.TextInput(attrs={'class':'form-control','maxlength':'100'}),
+            'tool_price':forms.NumberInput(attrs={'class':'form-control',}),
+            'tool_type':forms.Select(attrs={'class':'form-control'}),
+            'tool_des':forms.Textarea(attrs={'class':'form-control','rows':4}),
+            'tool_img':forms.FileInput(attrs={'class': 'form-control', 'accept': 'image/*', 'onchange': 'readimg(this)'})
+        }
+        labels = {
+            'tool_name':'ชื่อ',
+            'tool_price':'ราคา',
+            'tool_type':'ประเภท',
+            'tool_des':'คำอธิบาย',
+            'tool_img':'รูปภาพ',
         }

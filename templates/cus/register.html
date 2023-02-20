@@ -1,0 +1,74 @@
+{% include 'master/cus/base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="main-wrapper cart-drawer-push">
+    {% include 'master/cus/header.html' %}
+    <main class="main-content">
+                <!-- Start Breadcrumb -->
+                <div class="breadcrumbs text-center">
+                    <div class="container">
+                        <h1>สมัครชื่อผู้ใช้</h1>
+                    </div>
+                </div>
+                <!-- End Breadcrumb -->
+
+                <!-- Start Register Account -->
+                <div class="create-account">
+                    <div class="container">
+                        <div class="row row-sp">
+                            <div class="col-sp col-12 col-sm-12 col-md-12 col-lg-12">
+                                <form action="{% url 'cus_register' %}" class="register-form needs-validation" method="POST">
+                                    {% csrf_token %}
+                                    <div class="row">
+
+                                        <div class="form-group col-md-6">
+                                            <label>ชื่อ *</label>
+                                            {{ form.first_name }}
+                                         <div class="invalid-feedback">กรุณากรอกชื่อ.</div>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label>นามสกุล *</label>
+                                            {{ form.sur_name }}
+                                            <div class="invalid-feedback">กรุณากรอกนามสกุล.</div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-md-6">
+                                            <label>เบอร์โทรศัพท์ *</label>
+                                            {{ form.tel }}
+                                            <div class="invalid-feedback">กรุณากรอกเบอร์โทรศัพ.</div>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label>อายุ *</label>
+                                            {{ form.birthday }}
+                                            <div class="invalid-feedback">กรุณากรอกอายุ.</div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-md-6">
+                                            <label>อีเมล์ *</label>
+                                            {{ form.email }}
+                                            <div class="invalid-feedback">กรุณากรอกอีเมลล์.</div>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label>รหัสผ่าน *</label>
+                                            {{ form.password }}
+                                            <div class="invalid-feedback">กรุณากรอกรหัสผ่าน.</div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group button-action mt-1 mt-sm-5 clearfix text-center">
+                                        <button type="submit" class="account-create btn btn-secondary">สมัครชื่อผู้ใช้</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Register Account -->
+            </main>
+    <div id="scrollTop"><i class="ti-arrow-up"></i></div>
+    <div class="overlay"></div>
+    </div>
+    {% include 'master/cus/javaScipt.html' %}
+{% endblock %}

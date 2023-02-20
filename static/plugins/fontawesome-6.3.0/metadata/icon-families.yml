@@ -13406,7 +13406,7 @@ diagram-project:
     pro:
       - family: classic
         style: solid
-  label: Diagram Project
+  label: Diagram Project_Cus
   search:
     terms:
       - chart
@@ -35238,7 +35238,7 @@ r-project:
     pro:
       - family: classic
         style: brands
-  label: R Project
+  label: R Project_Cus
   search:
     terms: []
   unicode: f4f7

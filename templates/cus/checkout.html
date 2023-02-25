@@ -1,0 +1,181 @@
+{% include 'master/cus/base.html' %}
+{% load static %}
+{% block content %}
+    <div class="main-wrapper cart-drawer-push">
+        {% include 'master/cus/header.html' %}
+        <main class="main-content">
+            <div class="checkout-content my-5">
+                <div class="container mt-5" style="padding-bottom: 200px">
+                <div class="row">
+                        <div class="col-md-12 text-center">
+                            <h1>การชำระเงิน</h1>
+                        </div>
+                    </div>
+                    <form action="{% url 'checkout' order_rec.order_id %}" id="form"
+                          class="shiping-form needs-validation" novalidate method="POST">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="checkout-form col-12 col-sm-12 col-lg-8 mb-5 mb-lg-0 sidebar-left">
+                                <div class="card rounded-0">
+                                    <div class="card-header rounded-0">ที่อยู่ที่จัดส่ง</div>
+                                    <div class="card-body">
+                                        <div class="row form-group mb-0">
+                                            <div class="col-12 col-sm-6 col-md-6 mb-4">
+                                                <label>ชื่อ: *</label>
+                                                {{ form.first_name }}
+                                                <div class="invalid-feedback">Please enter your first name.</div>
+                                            </div>
+                                            <div class="col-12 col-sm-6 col-md-6 mb-4">
+                                                <label>นามสกุล: *</label>
+                                                {{ form.sur_name }}
+                                                <div class="invalid-feedback">Please enter your last name.</div>
+                                            </div>
+                                        </div>
+                                        <div class="row form-group mb-0">
+                                            <div class="col-12 col-sm-12 col-md-12 mb-4">
+                                                <label>ที่อยู่: *</label>
+                                                {{ form.address }}
+                                                <div class="invalid-feedback">Please enter your address.</div>
+                                            </div>
+                                        </div>
+                                        <div class="row form-group mb-0">
+                                            <div class="col-12 col-sm-6 col-md-6 mb-4">
+                                                <label>ตำบล/เขต: *</label>
+                                                {{ form.subdistrict }}
+                                                <div class="invalid-feedback">Please select your country.</div>
+                                            </div>
+                                            <div class="col-12 col-sm-6 col-md-6 mb-4">
+                                                <label>อำเภอ: *</label>
+                                                {{ form.district }}
+                                                <div class="invalid-feedback">Please select your state.</div>
+                                            </div>
+                                        </div>
+                                        <div class="row form-group mb-0">
+                                            <div class="col-12 col-sm-6 col-md-6 mb-4">
+                                                <label>จังหวัด: *</label>
+                                                {{ form.province }}
+                                            </div>
+                                            <div class="col-12 col-sm-6 col-md-6 mb-4">
+                                                <label>รหัสไปรษณีย์: *</label>
+                                                {{ form.postcode }}
+                                                <div class="invalid-feedback">Please enter your zip/postal code.</div>
+                                            </div>
+                                        </div>
+                                        <div class="row form-group mb-0">
+                                            <div class="col-12 col-sm-6 col-md-6 mb-4">
+                                                <label>เบอร์โทรที่ติดต่อได้: *</label>
+                                                {{ form.tel }}
+                                                <div class="invalid-feedback">Please enter your phone number.</div>
+                                            </div>
+                                            <div class="col-12 col-sm-6 col-md-6 mb-4">
+                                                <label>อีเมลล์: *</label>
+                                                {{ form.email }}
+                                                <div class="invalid-feedback">Please enter your email.</div>
+                                            </div>
+                                        </div>
+                                        <div class="row form-group mb-0">
+                                            <div class="col-12 col-sm-12 col-md-12">
+                                                <label>หมายเหตุ:</label>
+                                                {{ form.note }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- End Shipping Form -->
+                            </div>
+                            <div class="checkout-order col-12 col-sm-12 col-lg-4 sidebar sidebar-right">
+                                <h3>รายการอะไหล่ที่เปลี่ยน</h3>
+                                <div class="table-content table-responsive mb-4">
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th class="text-center"><b>อะไหล่</b></th>
+                                            <th class="text-left"></th>
+                                            <th class="text-center"><b>ราคา</b></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for key_tool in tool_use_data %}
+                                            <tr>
+                                                <td class="pro-img text-center">
+                                                    <img class="img-fluid blur-up lazyload"
+                                                         src="{% static key_tool.tool.tool_img %}"
+
+                                                         title="image" width="60"/>
+                                                </td>
+                                                <td class="pro-del text-left">
+                                                    <p class="mb-1 pro-name">{{ key_tool.tool.tool_name }}</p>
+                                                    <p class="mb-1">จำนวน: {{ key_tool.tu_amount }}</p>
+                                                </td>
+                                                <td class="pro-price text-center">{{ key_tool.tu_total_price }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                        <tr>
+                                            <td class="text-left" colspan="2"><b>ราคาทั้งหมด:</b></td>
+                                            <td class="text-center font-14"><strong>{{ order_rec.price }}</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-left" colspan="2"><b>ค่าบริการ:</b></td>
+                                            <td class="text-center">
+                                                <strong>
+                                                    {% if order_rec.price_service > 0.0 %}
+                                                        {{ order_rec.price_service }}
+                                                    {% else %}
+                                                        -
+                                                    {% endif %}
+                                                </strong>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-left" colspan="2"><b>ราคาสุทธิ:</b></td>
+                                            <td class="text-center font-14"><strong>{{ order_rec.price_total }}</strong></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="payment-method accordion" id="payment-method">
+                                    <div class="card border-0 rounded-0 mb-3">
+                                        <div class="card-header border-0 rounded-0 p-0 bg-white">
+                                            <div class="form-check" role="tablist" data-toggle="collapse"
+                                                 data-target="#paymentOne" aria-expanded="true"
+                                                 aria-controls="paymentOne">
+                                                <input class="form-check-input" type="radio" name="pay_type"
+                                                       id="pay_type1" value="1" checked/>
+                                                <label class="form-check-label w-100 ml-3" for="pay_type1">เก็บเงินปลายทาง</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card border-0 rounded-0 mb-3">
+                                        <div class="card-header border-0 rounded-0 bg-white p-0">
+                                            <div class="form-check" role="tablist" data-toggle="collapse"
+                                                 data-target="#paymentOne2" aria-expanded="false"
+                                                 aria-controls="paymentOne2">
+                                                <input class="form-check-input" type="radio" name="pay_type"
+                                                       id="pay_type2" value="2"/>
+                                                <label class="form-check-label w-100 ml-3" for="pay_type2">QR Code
+                                                    Scan</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group mt-5">
+                                    <button type="submit"
+                                            class="btn btn-primary btn-lg btn-block place-order-btn">ชำระเงิน
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- End Cart Order -->
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- End checkout -->
+        </main>
+        <div id="scrollTop"><i class="ti-arrow-up"></i></div>
+        <div class="overlay"></div>
+    </div>
+    {% include 'master/cus/javaScipt.html' %}
+    <script>
+
+    </script>
+{% endblock %}

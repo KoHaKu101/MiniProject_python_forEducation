@@ -8,9 +8,9 @@ class empForm(forms.ModelForm):
         model = employee
         fields = ('id_code', 'first_name', 'sur_name', 'birthday', 'gender', 'national', 'ethnicity', 'religion',
                   'address', 'subdistrict', 'district', 'Province', 'postcode', 'tel', 'email', 'appointment',
-                  'department', 'username', 'password', 'img_profile')
+                  'department', 'username', 'img_profile')
         widgets = {
-            'id_code': forms.TextInput(attrs={'max_length': '13', 'min_length': '13','class': 'form-control', 'pattern': "[0-9]+",'required': 'required'}),
+            'id_code': forms.TextInput(attrs={'minlength': '13','maxlength': '13', 'class': 'form-control', 'pattern': "[0-9]+",'required': 'required'}),
             'first_name': forms.TextInput(attrs={'class': 'form-control', 'max_length': '255',}),
             'sur_name': forms.TextInput(attrs={'class': 'form-control', 'max_length': '255',}),
             'national': forms.TextInput(attrs={'class': 'form-control', 'max_length': '100',}),
@@ -21,14 +21,13 @@ class empForm(forms.ModelForm):
             'Province': forms.TextInput(attrs={'class': 'form-control', 'max_length': '100',}),
             'postcode': forms.TextInput(attrs={'class': 'form-control', 'pattern': "[0-9]+",'max_length': '5',}),
             'tel': forms.TextInput(attrs={'class': 'form-control', 'pattern': "[0-9]+",'max_length': '10',}),
-            'email': forms.TextInput(attrs={'class': 'form-control', 'max_length': '100',}),
+            'email': forms.EmailInput(attrs={'class': 'form-control', 'max_length': '100'}),
             'username': forms.TextInput(attrs={'class': 'form-control','max_length': '100',}),
-            'birthday': forms.NumberInput(attrs={'class': 'form-control', 'type': 'date', 'required': 'required'}),
+            'birthday': forms.DateInput(format=('%Y-%m-%d'),attrs={'class': 'form-control', 'placeholder': 'Select a date','type': 'date'}),
             'gender': forms.RadioSelect(choices=gendel_choices, attrs={'class': 'form-check-input', 'required': 'required'}),
             'address': forms.Textarea(attrs={'class': 'form-control', 'rows': '2'}),
             'appointment': forms.Select(attrs={'class': 'form-control', 'required': 'required'}),
             'department': forms.Select(attrs={'class': 'form-control', 'required': 'required'}),
-            'password': forms.PasswordInput(attrs={'class': 'form-control', 'required': 'required', 'minlength': '8', 'maxlength': '32'}),
             'img_profile': forms.FileInput(attrs={'class': 'form-control', 'accept': 'image/*', 'onchange': 'readimg(this)'}),
         }
         labels = {
@@ -50,48 +49,41 @@ class empForm(forms.ModelForm):
             'appointment': 'ตำแหน่ง',
             'department': 'แผนก',
             'username': 'ชื่อผู้ใช้',
-            'password': 'รหัสผ่าน',
             'img_profile': 'รูป',
         }
 
 
     def updateForm(self):
         self.fields['id_code'].widget.attrs['readonly'] = True
-        self.fields['password'].widget.attrs['hidden'] = True
+
 class appointmentForm(forms.ModelForm):
-    List_bool = [('True', 'เปิด'), ('False', 'ปิด')]
-    app_status = forms.TypedChoiceField(choices=List_bool,widget=forms.RadioSelect)
     class Meta:
         model = appointment
-        fields = ('app_name','app_permission','app_status')
+        fields = ('app_name',)
         widgets ={
             'app_name':forms.TextInput(attrs={'class':'form-control','maxlength':100}),
-            'app_permission':forms.TextInput(attrs={'class':'form-control','maxlength':10,'pattern': "[0-9]+"}),
-
         }
         labels = {
             'app_name':'ชื่อตำแหน่ง',
-            'app_permission':'ระดับการใช้งานระบบ',
-            'app_status':'สถานะการเปิดใช้งานตำแหน่ง',
         }
 class departmentForm(forms.ModelForm):
-    List_bool = [('True', 'เปิด'), ('False', 'ปิด')]
-    dep_status = forms.TypedChoiceField(choices=List_bool, widget=forms.RadioSelect,label="สถานะการเปิดใช้งาน")
     class Meta:
         model = department
-        fields = ('dep_name','dep_status')
+        fields = ('dep_name_th','dep_name_en')
         widgets = {
-            'dep_name': forms.TextInput(attrs={'class': 'form-control', 'maxlength': 100}),
+            'dep_name_th': forms.TextInput(attrs={'class': 'form-control', 'maxlength': 100,'require':'require'}),
+            'dep_name_en': forms.TextInput(attrs={'class': 'form-control', 'maxlength': 100,'require':'require'}),
         }
         labels = {
-            'dep_name':'ชื่อแผนก',
+            'dep_name_th':'ชื่อแผนก (ไทย)',
+            'dep_name_en': 'ชื่อแผนก (อังกฤษ)',
         }
 class tooltypeForm(forms.ModelForm):
-    List_bool = [('True', 'เปิด'), ('False', 'ปิด')]
-    tooly_status = forms.TypedChoiceField(choices=List_bool, widget=forms.RadioSelect,label="สถานะการเปิดใช้งาน")
+    # List_bool = [('True', 'เปิด'), ('False', 'ปิด')]
+    # tooly_status = forms.TypedChoiceField(choices=List_bool, widget=forms.RadioSelect,label="สถานะการเปิดใช้งาน")
     class Meta:
         model = tooltype
-        fields = ('tooly_name','tooly_des','tooly_status')
+        fields = ('tooly_name','tooly_des')
         widgets = {
             'tooly_name': forms.TextInput(attrs={'class': 'form-control', 'maxlength': '100'}),
             'tooly_des': forms.Textarea(attrs={'class': 'form-control', 'row': 2}),
@@ -117,4 +109,50 @@ class toolForm(forms.ModelForm):
             'tool_type':'ประเภท',
             'tool_des':'คำอธิบาย',
             'tool_img':'รูปภาพ',
+        }
+
+class orderReceiveForm(forms.ModelForm):
+    class Meta:
+        model = order_receive
+        fields = ()
+class orderQueueForm(forms.ModelForm):
+    class Meta:
+        model = order_queue
+        fields = ()
+class repairDetailFrom(forms.ModelForm):
+    class Meta:
+        model = repair_detail
+        fields = ('re_detail','re_date_start','re_date_end')
+        widgets = {
+            're_detail':forms.Textarea(attrs={'class':'form-control','rows':'4'}),
+            're_date_start':forms.DateInput(format=('%Y-%m-%d'),attrs={'class': 'form-control', 'placeholder': 'Select a date','type': 'date'}),
+            're_date_end':forms.DateInput(format=('%Y-%m-%d'),attrs={'class': 'form-control', 'placeholder': 'Select a date','type': 'date'}),
+
+        }
+        labels = {
+            're_detail':'ชื่อ',
+            're_date_start':'ราคา',
+            're_date_end':'ประเภท',
+        }
+    def updateForm(self):
+        self.fields['re_detail'].widget.attrs['readonly'] = True
+        self.fields['re_date_start'].widget.attrs['readonly'] = True
+        self.fields['re_date_end'].widget.attrs['readonly'] = True
+
+class toolUseForm(forms.ModelForm):
+    class Meta:
+        model = tool_use
+        fields = ()
+
+class settingForm(forms.ModelForm):
+    class Meta:
+        model = setting_default
+        fields = ('service_paid', 'line_notify')
+        widgets = {
+            'service_paid': forms.NumberInput(attrs={'class': 'form-control'}),
+            'line_notify': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+        labels = {
+            'service_paid': 'ชื่อ',
+            'line_notify': 'ราคา',
         }

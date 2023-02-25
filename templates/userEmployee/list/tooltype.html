@@ -1,5 +1,6 @@
 {% include 'master/user/base.html' %}
 {% load static %}
+{% load bootstrap4 %}
 {% block MainContent %}
     <div class="content-wrapper">
         <div class="content-header">
@@ -19,10 +20,13 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="row">
-                                    <div class="col-md-10">
-                                        <form action="#">
+                                    <div class="col-md-9">
+                                        <form action="{% url 'list_tooltype' %}" method="POST">
+                                            {% csrf_token %}
                                             <div class="input-group">
-                                                <input type="search" class="form-control form-control-sm" placeholder="ตำแหน่ง">
+                                                <input type="search" class="form-control form-control-sm"
+                                                       placeholder="ชื่อประเภทอุปกรณ์ / รหัสอุปกรณ์" name="search_text"
+                                                       value="{{ search_text }}">
                                                 <div class="input-group-append">
                                                     <button type="submit" class="btn btn-sm btn-default">
                                                         <i class="fa fa-search"></i>
@@ -31,10 +35,10 @@
                                             </div>
                                         </form>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-3">
                                         <a href="{% url 'add_tooltype' %}" class="btn btn-info btn-sm float-right">
                                             <i class="fas fa-plus"></i>
-                                            เพิ่มแผนก
+                                            เพิ่มประเภทอุปกรณ์
                                         </a>
                                     </div>
                                 </div>
@@ -44,37 +48,39 @@
                                     <div class="col-md-12">
                                         <table class="table table-bordered table-hover">
                                             <thead>
-                                                <tr>
-                                                    <th >รหัส</th>
-                                                    <th >ชื่อ</th>
-                                                    <th >อธิบาย</th>
-                                                    <th >สถานะ</th>
-                                                    <th width="12%"></th>
-                                                </tr>
+                                            <tr>
+                                                <th>รหัส</th>
+                                                <th>ชื่อ</th>
+                                                <th>อธิบาย</th>
+                                                <th width="15%"></th>
+                                            </tr>
                                             </thead>
                                             <tbody>
-                                                {% for key in context %}
-                                                    <tr>
+                                            {% for key in data %}
+                                                <tr>
                                                     <td>{{ key.tooly_id }}</td>
                                                     <td>{{ key.tooly_name }}</td>
                                                     <td>{{ key.tooly_des }}</td>
-                                                        {% if key.tooly_status == True %}
-                                                        <td><span class="badge badge-pill badge-success">เปิดใช้งาน</span></td>
-                                                            {% else %}
-                                                            <td><span class="badge badge-pill badge-danger">ปิด</span></td>
-                                                        {% endif %}
+
                                                     <td>
-                                                        <a href="{% url 'update_tooltype' key.tooly_id %}" class="btn btn-warning" >
+                                                        <a href="{% url 'update_tooltype' key.tooly_id %}"
+                                                           class="btn btn-warning">
                                                             <i class="fas fa-pencil"></i>
                                                         </a>
-                                                        <a href="{% url 'delete_tooltype' key.tooly_id %}" class="btn btn-danger" >
+                                                        <button onclick="check_delete('{% url 'delete_tooltype' key.tooly_id %}')"
+                                                                class="btn btn-danger">
                                                             <i class="fas fa-trash"></i>
-                                                        </a>
+                                                        </button>
                                                     </td>
                                                 </tr>
-                                                {% endfor %}
+                                            {% endfor %}
                                             </tbody>
                                         </table>
+                                    </div>
+                                </div>
+                            <div class="row">
+                                    <div class="col-md-12">
+                                        {% bootstrap_pagination data %}
                                     </div>
                                 </div>
                             </div>

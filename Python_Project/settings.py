@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'Project_Cus.apps.ProjectConfig',
     'Project_UserEmp.apps.ProjectConfig',
+    'bootstrap4',
 ]
 
 MIDDLEWARE = [
@@ -64,6 +65,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'Project_UserEmp.messages.context_processors.my_session_processor',
+
             ],
         },
     },

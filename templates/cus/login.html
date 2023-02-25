@@ -1,0 +1,71 @@
+{% include 'master/cus/base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="main-wrapper cart-drawer-push">
+        {% include 'master/cus/header.html' %}
+        <main class="main-content">
+            <div class="loging-account"style="margin-top: 100px;">
+                <div class="container">
+                    <div class="row row-sp">
+                        <div class="col-sp col-12 col-sm-12 col-md-12 col-lg-6 offset-lg-3 ">
+                            <div class="card">
+                                <div class="card-header text-center bg-dark text-white">
+                                    <h2>ลงชื่อเข้าใช้</h2>
+                                </div>
+                                <div class="card-body">
+                                    <form action="{% url 'cus_login' %}" class="register-form needs-validation"
+                                          method="POST">
+                                        {% csrf_token %}
+                                        <div class="row justify-content-center">
+                                            <div class="form-group col-sm-12 ">
+                                                <label>อีเมล์ *</label>
+                                                <input type="email" class="form-control" id="email" name="email"
+                                                       required>
+                                                <div class="invalid-feedback">กรุณากรอกอีเมลล์.</div>
+                                            </div>
+
+                                        </div>
+                                        <div class="row justify-content-center">
+                                            <div class="form-group col-sm-12">
+                                                <label>รหัสผ่าน *</label>
+                                                <input type="password" class="form-control" id="password"
+                                                       name="password"
+                                                       required>
+                                                <div class="invalid-feedback">กรุณากรอกรหัสผ่าน.</div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group button-action clearfix text-center mx-3">
+                                            <div class="login-forget ">
+                                                <button type="submit" class="btn btn-primary">ลงชื่อเข้าใช้</button>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <p class="text-center ">
+                                            หากไม่เป็นสมาชิก <a href="{% url 'cus_register' %}"> <u> สมัครสมาชิก</u></a>
+                                        </p>
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Register Account -->
+        </main>
+        <div id="scrollTop"><i class="ti-arrow-up"></i></div>
+        <div class="overlay"></div>
+    </div>
+    {% include 'master/cus/javaScipt.html' %}
+        {% if status == "0" %}
+        <script>
+            Swal.fire({
+              icon: '{{icon}}',
+              text: '{{text}}!',
+            })
+        </script>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,96 @@
+{% include 'master/user/base.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% block MainContent %}
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2 justify-content-center">
+                    <div class="col-sm-8">
+                        <h1 class="m-0">งานทั้งหมด</h1>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <section class="content">
+            <div class="container-fluid">
+                <!-- Small boxes (Stat box) -->
+                <div class="row justify-content-center">
+                    <div class="col-md-8 ">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <form action="{% url 'list_payment' %}" method="POST">
+                                            {% csrf_token %}
+                                            <div class="input-group">
+                                                <input type="search" class="form-control form-control-sm"
+                                                       placeholder="รหัสงาน / รหัสชำระเงิน" name="search_text"
+                                                       value="{{ search_text }}">
+                                                <div class="input-group-append">
+                                                    <button type="submit" class="btn btn-sm btn-default">
+                                                        <i class="fa fa-search"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <table class="table table-bordered table-hover">
+                                            <thead>
+                                            <tr>
+                                                <th>รหัสงาน</th>
+                                                <th>หัวข้องาน</th>
+                                                <th>รายละเอียดงาน</th>
+                                                <th>สถานะ</th>
+                                                <th></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for key in data %}
+                                                <tr>
+                                                    <td>{{ key.pay_id }}</td>
+                                                    <td>{{ key.order_rec.order.title }}</td>
+                                                    <td>{{ key.order_rec.price_total }}</td>
+                                                    {% if key.pay_status == '1' or key.pay_status == "2" %}
+                                                        <td><span class="badge badge-pill badge-danger">รอยืนยัน</span>
+                                                        </td>
+                                                    {% elif key.pay_status == '3' %}
+                                                        <td><span
+                                                                class="badge badge-pill badge-info">ยืนยันสำเร็จ</span>
+                                                        </td>
+                                                    {% endif %}
+                                                    <td class="text-left ">
+                                                        <a href="{% url 'pay_detail' key.order_rec_id %}"class="btn btn-info mr-3">
+                                                            ดูข้อมูล
+                                                        </a>
+                                                        {% if key.pay_status == '3' %}
+                                                                <a href="{% url 'report_pay' key.order_rec_id %}"
+                                                                   class="btn btn-success">
+                                                                    พิมพ์สลิป
+                                                                </a>
+                                                        {% endif %}
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        {% bootstrap_pagination data %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock %}

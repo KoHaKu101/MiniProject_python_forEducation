@@ -1,0 +1,196 @@
+{% include 'master/user/base.html' %}
+{% load static %}
+{% block MainContent %}
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2 justify-content-center">
+                    <div class="col-sm-8">
+                        <h1 class="m-0">รายละเอียดงาน</h1>
+
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <section class="content">
+            <div class="container-fluid">
+                <!-- Small boxes (Stat box) -->
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="row d-flex align-items-center">
+                                    <a href="{% url 'list_emp_order' %}" class="btn btn-primary ml-auto">
+                                        <i class="fas fa-arrow-left"></i>
+                                    </a>
+                                    <h3 class="flex-grow-1 text-center">{{ order_data.title }}</h3>
+                                    {% if order_data.order_status == 5 %}
+                                        <h5 class="text-danger">
+                                            <i class="fas fa-times"></i> รายการถูกยกเลิก
+                                        </h5>
+                                    {% elif order_data.order_status == 0 %}
+                                        <h5 class="text-info"><i class="fas fa-sharp fa-solid fa-circle-exclamation mx-2"></i>รอรับงาน</h5>
+                                    {% elif order_data.order_status == 1 %}
+                                        <h5 class="text-success"><i class="fas fa-regular fa-screwdriver-wrench mx-2"></i>ดำเนินการซ่อม</h5>
+                                    {% elif order_data.order_status == 2 %}
+                                        <h5 class="text-warning"><i class="fas fa-sharp fa-solid fa-circle-exclamation mx-2"></i>รอการชำระเงิน</h5>
+                                    {% elif order_data.order_status == 3 %}
+                                        <h5 class="text-warning"><i class="fas fa-sharp fa-solid fa-circle-exclamation mx-2"></i>รอยืนยันการชำระเงิน</h5>
+                                    {% elif order_data.order_status == 4 %}
+                                        <h5 class="text-success"><i class="fas fa-check"></i>ปิดงาน</h5>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="card-body justify-content-center">
+                                <div class="row">
+                                    <div class="col-sm-12 text-center">
+                                        <img src="{% static order_data.order_img %}" id="imgShow" width="25%"
+                                             class="mb-3">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12 text-center">
+                                        <div class="row">
+                                            <div class="form-group col-sm-12">
+                                                <label>คำอธิบาย </label>
+                                                <br>
+                                                {{ order_data.desc }}
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-sm-12">
+                                                <label>เบอร์โทรติดต่อ </label><br>
+                                                {{ order_data.tel_order }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% if order_data.order_status != 0 and order_data.order_status != 5 %}
+                                    <form action="{% url 'view_emp_order' order_data.order_id %}" method="POST">
+                                        <div class="row border-top mb-3"></div>
+                                        <div class="row justify-content-center">
+                                            <h3>บันทึกการซ่อม</h3>
+                                        </div>
+                                        <div class="row border-top mb-3"></div>
+                                        <div class="row ">
+                                            <div class="col-md-8 text-center">
+                                                <label>อธิบายการซ่อม</label>
+                                                {{ form.re_detail }}
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <label>วันที่เริ่มซ่อม</label>
+                                                {{ form.re_date_start }}
+                                                <label>วันที่ซ่อมเสร็จ</label>
+                                                {{ form.re_date_end }}
+                                            </div>
+                                        </div>
+                                        <div class="row border-top my-3"></div>
+                                        <div class="row">
+                                            <div class="col-md-12 mb-2">
+                                                <button class="btn btn-primary float-right" onclick="addrow()"
+                                                        type="button">
+                                                    <i class="fas fa-add mr-2"></i>เพิ่มอะไหล่
+                                                </button>
+                                            </div>
+
+                                        </div>
+                                        {% csrf_token %}
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <table class="table table-bordered" id="tool_use">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>ชื่อ</th>
+                                                        <th>จำนวน</th>
+                                                        <th>ราคา</th>
+                                                        <th>ราคารวม</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody id="tbody">
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-success">
+                                            <i class="fas fa-save mx-1"></i>
+                                            บันทึก
+                                        </button>
+                                    </form>
+                                {% endif %}
+                            </div>
+                            <div class="card-footer">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        {% if order_data.order_status == 0 %}
+                                            <a href="{% url 'receive_emp_order' order_data.order_id %}"
+                                               class="btn btn-success float-right mx-2">
+                                                <i class="fas fa-check"></i>
+                                                รับงาน
+                                            </a>
+                                            <a href="{% url 'cancel_emp_order' order_data.order_id %}"
+                                               class="btn btn-danger float-right mx-2">
+                                                <i class="fas fa-times"></i>
+                                                ยกเลิกงาน
+                                            </a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        var data_array = []
+        {% for key in tool_data %}
+            data_array["{{ key.tool_id }}"] = {{key.tool_price}};
+        {% endfor %}
+        function addrow() {
+            var tbody = document.getElementById('tbody')
+            var row = tbody.rows;
+            var count_row = row.length + 1;
+            var price = data_array["{{ tool_data.0.tool_id }}"];
+            const tableBody = document.querySelector('#tool_use tbody');
+            const newRowTemplate = '<tr>' +
+                '<td>' +
+                '<select class="form-control" id="tool_id_' + count_row + '" name="tool_id[]" onchange="setPrice(this,' + count_row + ')">' +
+                {% for key in tool_data %}
+                    '<option value="{{ key.tool_id }}">{{ key.tool_name }}</option>'+
+                {% endfor %}
+                '</select>' +
+                '</td>' +
+                '<td>' +
+                '<input type="number" class="form-control" min="1" value="1"id="tool_amount_' + count_row + '" name="tool_amount[]" onkeyup="calTotal(this,' + count_row + ')">' +
+                '</td>' +
+                '<td>' +
+                '<input type="number" class="form-control" value="' + price + '"id="tool_price_' + count_row + '" name="tool_price[]" readonly>' +
+                '</td>' +
+                '<td>' +
+                '<input type="number" class="form-control" value="' + price + '"id="tool_total_' + count_row + '" name="tool_total[]" readonly>' +
+                '</td>' +
+                '</tr>';
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = newRowTemplate;
+            tableBody.appendChild(newRow);
+        }
+
+        function setPrice(input, num_row) {
+            var tool_id = document.getElementById("tool_id_" + num_row).value;
+            var price = data_array[tool_id]
+            $("#tool_price_" + num_row).val(price);
+            var amount = document.getElementById("tool_amount_" + num_row);
+            calTotal(amount, num_row)
+        }
+
+        function calTotal(input, num_row) {
+            var price = document.getElementById("tool_price_" + num_row).value;
+            var amount = input.value;
+            var total = amount * price;
+            $("#tool_total_" + num_row).val(total);
+        }
+    </script>
+{% endblock %}
+

@@ -16,3 +16,49 @@
 
 <!-- AdminLTE App -->
 <script src="{% static 'dist/js/adminlte.js' %}"></script>
+<script src="{% static 'dist/js/sweetalert2.all.min.js' %}"></script>
+
+<script>
+        function check_delete(url) {
+            Swal.fire({
+                title: 'ต้องการลบรายการนี้มั้ย',
+                showDenyButton: true,
+                confirmButtonText: 'ตกลง',
+                denyButtonText: `ยกเลิก`,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: ''+url+'',
+                        type: "POST",
+                        data: { csrfmiddlewaretoken: "{{ csrf_token }}" },
+                        success: function(data) {
+                            console.log(data)
+                            if (data.success) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Success',
+                                    text: data.message,
+                                    timer: 2000,
+                                    showConfirmButton: false
+                                }).then(function() {
+                                    location.reload();
+                                });
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error',
+                                    text: data.message,
+                                }).then(function() {
+                                    location.reload();
+                                });
+                            }
+                        },
+
+                    });
+                } else if (result.isDenied) {
+
+                }
+            })
+
+        }
+    </script>

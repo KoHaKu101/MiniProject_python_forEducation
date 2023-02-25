@@ -1,0 +1,92 @@
+{% include 'master/cus/base.html' %}
+{% load static %}
+{% load humanize %}
+{% load bootstrap4 %}
+{% block content %}
+    <div class="main-wrapper cart-drawer-push">
+        {% include 'master/cus/header.html' %}
+        <main class="main-content">
+            <div class="colection-listing mt-5">
+                <div class="container ">
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <h1>รายการแจ้งชำรุด</h1>
+                        </div>
+                    </div>
+                    <div class="row row-sp">
+                        <div class="col-md-12">
+                            <table class="table table-bordered ">
+                                <thead style="background: #f76d2b">
+                                <tr>
+                                    <th>ลำดับ</th>
+                                    <th>เลขคำสั่ง</th>
+                                    <th>หัวข้อ</th>
+                                    <th>ราคา</th>
+                                    <th>รายละเอียดปัญหา</th>
+                                    <th>วันที่แจ้ง</th>
+                                    <th>สถานะ</th>
+                                    <th>การชำระเงิน</th>
+                                </tr>
+                                </thead>
+                                <tbody class="bg-white">
+                                {% for key in order_data %}
+
+                                    <tr>
+                                        <td>{{ forloop.counter|add:order_data.start_index|add:"-1" }}</td>
+                                        <td>{{ key.order_id }}</td>
+                                        <td>{{ key.title }}</td>
+                                        <td>{{ key.order_receive_set.values_list.0.5|intcomma }}</td>
+                                        <td>{{ key.desc }}</td>
+                                        <td>{{ key.create_date_time }}</td>
+                                        <td class="block">
+                                            <div class="collection-details">
+                                                {% if key.order_status == 0 %}
+                                                    <p class="text-info">
+                                                        <i class="fas fa-sharp fa-solid fa-circle-exclamation mx-2"></i>รอรับงาน
+                                                    </p>
+                                                {% elif key.order_status == 1 %}
+                                                    <p class="text-success">
+                                                        <i class="fas fa-regular fa-screwdriver-wrench mx-2"></i>กำลังดำเนินการซ่อม
+                                                    </p>
+                                                {% elif key.order_status == 2 %}
+                                                    <p class="text-success">
+                                                        <i class="fas fa-sharp fa-solid fa-circle-exclamation mx-2"></i>รอชำระเงิน
+                                                    </p>
+                                                {% elif key.order_status == 3 %}
+                                                    <p class="text-success"><i
+                                                            class="fas fa-sharp fa-solid fa-circle-exclamation mx-2"></i>รอตรวจสอบชำระเงิน
+                                                    </p>
+                                                {% elif key.order_status == 4 %}
+                                                    <p class="text-warning"><i class="fas fa-solid fa-truck mx-2"></i>กำลังจัดส่ง
+                                                    </p>
+                                                {% elif key.order_status == 5 %}
+                                                    <p class="text-danger"><i class="fas fa-times mx-2"></i>รายการถูกยกเลิก
+                                                    </p>
+                                                {% endif %}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            {% if key.order_status == 2 %}
+                                                <a href="{% url 'checkout' key.order_id %}"
+                                                   class="btn btn-primary">ชำระเงิน</a>
+                                            {% endif %}
+                                        </td>
+
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            {% bootstrap_pagination order_data %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Collection List -->
+        </main>
+    </div>
+    {% include 'master/cus/javaScipt.html' %}
+{% endblock %}

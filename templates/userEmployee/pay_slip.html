@@ -1,0 +1,57 @@
+{% load static %}
+{% load tz %}
+{% load humanize %}
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>ตัวอย่างรายงานภาษาไทย</title>
+</head>
+<body>
+<h1 align="center">
+    <b style="font-size:25px;font-weight: bold">
+        ใบเสร็จ #{{ payment_data.pay_id|upper }}
+    </b>
+</h1>
+<h2 style="font-size: 18px;">
+    รายละเอียดลูกค้า <br>
+    ชื่อ {{ address_cus.first_name }} {{ address_cus.sur_name }}<br>
+    บ้านเลขที่ {{ address_cus.address }} ตำบล {{ address_cus.subdistrict }} อำเภอ {{ address_cus.district }}<br>
+    จังหวัด {{ address_cus.province }} รหัสไปรษณีย์ {{ address_cus.postcode }}<br>
+    เบอร์โทรศัพท์ {{ address_cus.tel }}<br>
+    วันที่ {{ pay_date_check_date|date:"d/m/Y" }}<br>
+    ชำระ : {% if payment_data.pay_type == 1 %}
+    เงินสด
+{% else %}
+    ชำระออนไลน์
+{% endif %}
+</h2>
+<hr align="center" width="100%">
+<table width="100%" border="1" align="center">
+    <tr>
+        <th>ลำดับ</th>
+        <th width="50%">ชื่ออุปกรณ์และอะไหล่</th>
+        <th>ราคาต่อหน่วย</th>
+        <th>จำนวน</th>
+        <th>ยอดขาย</th>
+    </tr>
+    {% for key in tool_use_data %}
+        <tr>
+            <td align="center">{{ forloop.counter }}</td>
+            <td>{{ key.tool.tool_name }}</td>
+            <td align="right">{{ key.tool.tool_price | floatformat:2 |intcomma }}</td>
+            <td align="center">{{ key.tu_amount }}</td>
+            <td align="right">{{ key.tu_total_price | floatformat:2 |intcomma }} </td>
+        </tr>
+    {% endfor %}
+</table>
+<h2 style="font-size: 18px;text-align: right">
+    รวม : {{ payment_data.order_rec.price | floatformat:2 |intcomma }} บาท <br>
+    ค่าบริการ : {{ payment_data.order_rec.price_service | floatformat:2 |intcomma }} บาท <br>
+    รวมสุทธิ : {{ payment_data.order_rec.price_total | floatformat:2 |intcomma }} บาท
+</h2>
+<h2 align="center" style="font-size: 16px">
+
+    ขอบคุณที่ใช้บริการทางร้าน
+</h2>
+</body>
+</html>

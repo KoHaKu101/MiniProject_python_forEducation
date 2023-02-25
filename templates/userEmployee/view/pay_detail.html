@@ -1,0 +1,79 @@
+{% include 'master/user/base.html' %}
+{% load static %}
+{% block MainContent %}
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0">รายละเอียดการชำระเงิน</h1>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <section class="content">
+            <div class="container-fluid">
+                <!-- Small boxes (Stat box) -->
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="card">
+                            <div class="card-body justify-content-center">
+                                <div class="row">
+                                    {% if payment_data.pay_type == "2" %}
+                                    <div class="col-sm-6 text-center">
+                                        <img src="{% static payment_data.pay_img %}" id="imgShow" width="25%"
+                                             class="mb-3">
+                                    </div>
+                                    {% endif %}
+                                    <div class="col-sm text-center">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <h3>{{ payment_data.order_rec.order.order_id }}</h3>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <h3>{{ payment_data.order_rec.order.title }}</h3>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <h3>ลูกค้า
+                                                    : {{ payment_data.order_rec.order.cus.first_name }} {{ payment_data.order_rec.order.cus.sur_name }}</h3>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <h3>ราคาสุทธิ : {{ payment_data.order_rec.price_total }}</h3>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                {% if payment_data.pay_type == "1" %}
+                                                    <h3>ชำระเงินสด</h3>
+                                                 {% else %}
+                                                    <h3>ชำระออนไลน์</h3>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="card-footer">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <a href="{% url 'list_payment' %}" class="btn btn-danger float-left mx-2">
+                                            <i class="fas fa-arrow-left"></i>
+                                            ย้อนกลับ
+                                        </a>
+                                        {% if payment_data.pay_status != "3" %}
+                                        <a href="{% url 'pay_confirm' payment_data.order_rec_id %}" class="btn btn-success float-right mx-2">
+                                            <i class="fas fa-check"></i>
+                                            ยืนยัน
+                                        </a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+{% endblock %}
+

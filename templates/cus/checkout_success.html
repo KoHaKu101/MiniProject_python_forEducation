@@ -1,0 +1,35 @@
+{% include 'master/cus/base.html' %}
+{% load static %}
+{% block content %}
+    <div class="main-wrapper cart-drawer-push">
+        {% include 'master/cus/header.html' %}
+        <main class="main-content">
+                <!-- Start Checkout Success -->
+                <div class="checkout-success-content">
+                    <div class="container">
+                        <div class="row row-sp">
+                            <div class="col-sp col-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="card border-0 rounded-0">
+                                    <div class="card-body text-center">
+                                        <p class="checkout-success-icon"><i class="fa fa-check-square-o"></i></p>
+                                        <h4 class="card-title">ขอบคุณสำหรับการชำระเงิน!</h4>
+                                        <p class="card-text mb-1">Your order # is: <b>{{ order_rec.order.order_id }}</b>.</p>
+                                        <p class="card-text mb-1">สินค้าจะจัดส่งให้แก่คุณ ตามที่อยู่ที่กรอกไปเมื่อสักครู่.</p>
+                                        <p class="card-text mb-1">หลังจากตรวจสอบยอดโอน</p>
+                                        <a href="{% url 'cus_repair_list' %}" class="btn btn-primary mt-4">ยืนยัน</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Checkout Success -->
+            </main>
+        <div id="scrollTop"><i class="ti-arrow-up"></i></div>
+        <div class="overlay"></div>
+    </div>
+    {% include 'master/cus/javaScipt.html' %}
+    <script>
+
+    </script>
+{% endblock %}

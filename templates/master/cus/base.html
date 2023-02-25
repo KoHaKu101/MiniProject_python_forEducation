@@ -2,33 +2,167 @@
 <html lang="en">
 {% load static %}
 <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
-{#    <meta name="viewport" content="width=device-width, initial-scale=1"/>#}
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-{#    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>#}
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="description" content=" "/>
-    <!-- Title -->
     <title>Posh - Auto Parts eCommerce Bootstrap 4 Html Template</title>
-    <!-- Favicon  -->
     <link rel="shortcut icon" href="{% static 'assets/images/fevicon.png' %}"/>
-    <!-- Plugin CSS -->
     <link rel="stylesheet" href="{% static 'assets/css/plugins.css' %}"/>
-    <!-- Styles CSS -->
     <link rel="stylesheet" href="{% static 'assets/css/styles.css' %}"/>
     <link rel="stylesheet" href="{% static 'assets/css/responsive.css' %}"/>
     <link rel="stylesheet" href="{% static 'plugins/fontawesome-6.3.0/css/all.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'dist/css/sweetalert2.min.css' %}">
+    {% block header %}
+    {% endblock %}
 </head>
 
 <body class="template-index">
+<style>
+    body {
+        background: #D1DDE6;
+    }
+
+    .header {
+        background: #83D6E7 !important;
+    }
+
+    .breadcrumbs {
+        background: #D1DDE6 !important;
+    }
+
+    .bg-blue {
+        background: #83D6E7 !important;
+    }
+
+    .btn-blue {
+        background: #83D6E7 !important;
+    }
+
+    .btn.btn-blue:hover {
+        background: #629fac !important;
+    }
+    .swal2-popup {
+      font-size: 1.8rem !important;
+      font-family: Georgia, serif;
+    }
+</style>
 <div class="page-loading"></div>
 
 
-    {% block content %}
-    {% endblock content%}
+{% block content %}
+{% endblock content %}
 
 
+<div id="login" class="quickview-popup magnific-popup mfp-hide" style="max-width: 604px;">
+    <div class="quickview-content">
+        <div class="row bg-blue text-center">
+            <div class="col-sm-12 ">
+                <h2 class="mt-3">ลงชื่อเข้าใช้</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <form action="{% url 'cus_login' %}" class="register-form needs-validation" novalidate method="POST">
+                    {% csrf_token %}
+                    <div class="row justify-content-center mt-5">
+                        <div class="form-group col-sm-12 ">
+                            <label>อีเมล์ *</label>
+                            <input type="email" class="form-control" id="email" name="email"
+                                   required>
+                            <div class="invalid-feedback">กรุณากรอกอีเมลล์.</div>
+                        </div>
 
+                    </div>
+                    <div class="row justify-content-center mt-2">
+                        <div class="form-group col-sm-12">
+                            <label>รหัสผ่าน *</label>
+                            <input type="password" class="form-control" id="password"
+                                   name="password"
+                                   required>
+                            <div class="invalid-feedback">กรุณากรอกรหัสผ่าน.</div>
+                        </div>
+                    </div>
+                    <div class="form-group button-action clearfix text-center mx-3 mt-5">
+                        <div class="login-forget ">
+                            <button type="submit" class="btn btn-primary">ลงชื่อเข้าใช้</button>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-center ">
+                            หากไม่เป็นสมาชิก <a href="#register" class="open-quickview-popup"> <u class="text-danger"> สมัครสมาชิก</u></a>
+                        </p>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div id="register" class="quickview-popup magnific-popup mfp-hide" style="max-width: 604px;">
+    <div class="quickview-content ">
+        <div class="row bg-blue text-center">
+            <div class="col-sm-12 ">
+                <h2 class="mt-3">สมัครสมาชิก</h2>
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col-md-12">
+                <form action="{% url 'cus_register' %}" class="register-form needs-validation" novalidate method="POST">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label>ชื่อ *</label>
+                            <input type="text" class="form-control" name="first_name" required>
+                            <div class="invalid-feedback">กรุณากรอกชื่อ.</div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>นามสกุล *</label>
+                            <input type="text" class="form-control" name="sur_name" required>
+                            <div class="invalid-feedback">กรุณากรอกนามสกุล.</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label>เบอร์โทรศัพท์ *</label>
+                            <input type="text" class="form-control" pattern="[0-9]+" minlength="10" maxlength="10" name="tel" required>
+                            <div class="invalid-feedback">กรุณากรอกเบอร์โทรศัพท์ให้ครบและถูกต้อง.</div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>วันเกิด *</label>
+                            <input type="date" class="form-control" name="birthday" required>
+                            <div class="invalid-feedback">กรุณากรอกวันเกิด.</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label>อีเมล์ *</label>
+                            <input type="email" class="form-control" name="email" required>
+                            <div class="invalid-feedback">กรุณากรอกอีเมลล์.</div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>รหัสผ่าน *</label>
+                            <input type="password" class="form-control" name="password" required>
+                            <div class="invalid-feedback">กรุณากรอกรหัสผ่าน.</div>
+                        </div>
+                    </div>
+                    <div class="row mt-5">
+                        <div class="col-sm-12 text-center">
+                            <button type="submit" class="btn btn-blue ">สมัครสมาชิก</button>
+                                <p class="text-center mt-3">
+                                    หากเป็นสมาชิกอยู่แล้ว <a href="#login" class="open-quickview-popup"> <u
+                                        class="text-danger"> ลงชื่อเข้าใช้</u></a>
+                                </p>
+
+                        </div>
+
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
 </body>
 </html>
 

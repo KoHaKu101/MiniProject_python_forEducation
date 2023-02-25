@@ -1,0 +1,76 @@
+{% include 'master/cus/base.html' %}
+{% load static %}
+{% block content %}
+    <div class="main-wrapper cart-drawer-push">
+        {% include 'master/cus/header.html' %}
+        <main class="main-content">
+            <!-- Start Breadcrumb -->
+            <div class="breadcrumbs text-center">
+                <div class="container">
+                    <h1>การชำระเงิน</h1>
+                </div>
+            </div>
+            <div class="checkout-content">
+                <div class="container" style="padding-bottom: 200px">
+
+                    <div class="row">
+                        <div class="checkout-form col-12 col-sm-12 col-lg-6 mb-5 mb-lg-0 sidebar-left">
+                            <div class="card rounded-0">
+                                <div class="card-header rounded-0">QR Code</div>
+                                <div class="card-body">
+                                    <div class="row form-group mb-0">
+                                        <div class="col-12 col-sm-12 col-md-12 text-center">
+                                            <img src="{% static 'images/qr_code.png' %}" width="50%">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Shipping Form -->
+                        </div>
+                        <div class="checkout-order col-12 col-sm-12 col-lg-6 sidebar sidebar-right text-center">
+                            <form action="{% url 'check_out_qrcode' order_rec_id %}" id="form" class="shiping-form needs-validation"  method="POST" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="card rounded-0">
+                                    <div class="card-header rounded-0">ใส่สลิป</div>
+                                    <div class="card-body">
+                                        <div class="row form-group mb-0">
+                                            <div class="col-12 col-sm-12 col-md-12 text-center">
+                                                <img src="{% static 'images/notfoundimg.jpg' %}" id="imgShow"
+                                                     width="50%" class="mb-3" hidden>
+                                                {{ form.pay_img }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group mt-5">
+                                    <button type="submit"
+                                            class="btn btn-primary btn-lg btn-block place-order-btn">ชำระเงิน
+                                    </button>
+                                </div>
+                            </form>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- End checkout -->
+        </main>
+        <div id="scrollTop"><i class="ti-arrow-up"></i></div>
+        <div class="overlay"></div>
+    </div>
+    {% include 'master/cus/javaScipt.html' %}
+    <script>
+        function readimg(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#imgShow').attr('src', e.target.result).width("100%");
+                };
+
+                reader.readAsDataURL(input.files[0]);
+                $('#imgShow').attr('hidden', false);
+            }
+        }
+    </script>
+{% endblock %}

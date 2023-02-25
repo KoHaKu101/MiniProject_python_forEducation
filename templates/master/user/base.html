@@ -10,23 +10,38 @@
     <link rel="stylesheet" href="{% static 'plugins/bootstrap-4.0.0/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'dist/css/adminlte.min.css' %}">
     <link rel="stylesheet" href="{% static 'plugins/overlayScrollbars/css/OverlayScrollbars.min.css' %}">
+    <link rel="stylesheet" href="{% static 'dist/css/sweetalert2.min.css' %}">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- jQuery -->
     {% block importcss %}
     {% endblock %}
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
-<style>
-    .nav-item .nav-link.active{
-        background: #0c84ff !important;
-        color: white !important;
-    }
-</style>
+    <style>
+        .nav-item .nav-link.active {
+            background: #0c84ff !important;
+            color: white !important;
+        }
+
+        .content-wrapper {
+            background: #D1DDE6;
+        }
+
+        .main-header {
+            background: #83D6E7 !important;
+        }
+
+        .main-sidebar {
+            background: rgb(3 2 86 / 78%);
+        }
+    </style>
     {% include 'master/user/preload.html' %}
     {% include 'master/user/header.html' %}
     {% include 'master/user/sidebar.html' %}
 
-        {% block MainContent %}
-        {% endblock %}
+    {% block MainContent %}
+    {% endblock %}
 </div>
 {% include 'master/user/javaScipt.html' %}
 {% block javaScipt %}

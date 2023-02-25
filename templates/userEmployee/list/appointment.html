@@ -1,5 +1,6 @@
 {% include 'master/user/base.html' %}
 {% load static %}
+{% load bootstrap4 %}
 {% block MainContent %}
     <div class="content-wrapper">
         <div class="content-header">
@@ -19,10 +20,13 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="row">
-                                    <div class="col-md-10">
-                                        <form action="#">
+                                    <div class="col-md-9">
+                                        <form action="{% url 'list_appoinment' %}" method="POST">
+                                            {% csrf_token %}
                                             <div class="input-group">
-                                                <input type="search" class="form-control form-control-sm" placeholder="ตำแหน่ง">
+                                                <input type="search" class="form-control form-control-sm"
+                                                       placeholder="ชื่อตำแหน่ง / รหัสตำแหน่ง" name="search_text"
+                                                       value="{{ search_text }}">
                                                 <div class="input-group-append">
                                                     <button type="submit" class="btn btn-sm btn-default">
                                                         <i class="fa fa-search"></i>
@@ -31,7 +35,7 @@
                                             </div>
                                         </form>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-3">
                                         <a href="{% url 'add_appoinment' %}" class="btn btn-info btn-sm float-right">
                                             <i class="fas fa-plus"></i>
                                             เพิ่มตำแหน่งงาน
@@ -47,27 +51,21 @@
                                                 <tr>
                                                     <th >รหัสตำแหน่ง</th>
                                                     <th >ตำแหน่ง</th>
-                                                    <th >สถานะ</th>
-                                                    <th width="12%"></th>
+                                                    <th width="15%"></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {% for key in context %}
+                                                {% for key in data %}
                                                     <tr>
                                                     <td>{{ key.app_id }}</td>
                                                     <td>{{ key.app_name }}</td>
-                                                        {% if key.app_status == True %}
-                                                        <td><span class="badge badge-pill badge-success">เปิดใช้งาน</span></td>
-                                                            {% else %}
-                                                            <td><span class="badge badge-pill badge-danger">ปิด</span></td>
-                                                        {% endif %}
                                                     <td>
                                                         <a href="{% url 'update_appointment' key.app_id %}" class="btn btn-warning" >
                                                             <i class="fas fa-pencil"></i>
                                                         </a>
-                                                        <a href="{% url 'delete_appointment' key.app_id %}" class="btn btn-danger" >
+                                                        <button onclick="check_delete('{% url 'delete_appointment' key.app_id %}')"  class="btn btn-danger" >
                                                             <i class="fas fa-trash"></i>
-                                                        </a>
+                                                        </button>
                                                     </td>
                                                 </tr>
                                                 {% endfor %}
@@ -75,6 +73,11 @@
 
                                             </tbody>
                                         </table>
+                                    </div>
+                                </div>
+                            <div class="row">
+                                    <div class="col-md-12">
+                                        {% bootstrap_pagination data %}
                                     </div>
                                 </div>
                             </div>

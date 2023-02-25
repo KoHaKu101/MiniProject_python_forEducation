@@ -6,7 +6,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">เพิ่มพนักงาน</h1>
+                        <h1 class="m-0">แก้ไขรายการพนักงาน</h1>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
             </div><!-- /.container-fluid -->
@@ -17,18 +17,18 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card">
-                            <form action="{% url 'updateemp' id %}" method="POST" enctype="multipart/form-data">
+                            <form action="{% url 'update_emp' id %}" method="POST" enctype="multipart/form-data">
                                 {% csrf_token %}
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col-md-3 mr-5">
-                                            {% if img_profile == "" %}
-                                                <img src="{% static 'images/notfoundimg.jpg' %}" id="imgShow"
-                                                     width="100%" class="mb-3">
+                                        <div class="col-md-3 mr-5" style="text-align: -webkit-center !important;">
+                                            <div class="parent ">
+                                                {% if img_profile == "" %}
+                                                <img src="{% static 'images/notfoundimg.jpg' %}" id="imgShow"  class="mb-3" width="100%">
                                             {% else %}
-                                                <img src="{% static img_profile %}" id="imgShow"
-                                                     width="100%" class="mb-3">
+                                                <img src="{% static img_profile %}" id="imgShow" class="mb-3" width="100%">
                                             {% endif %}
+                                            </div>
                                             <div class="form-group my-2">
                                                 {{ form.img_profile }}
                                             </div>
@@ -102,7 +102,7 @@
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="form-group">
-                                                        <label for="birthday">ที่อยู่</label>
+                                                        <label for="birthday">บ้านเลขที่</label>
                                                         {{ form.address }}
                                                     </div>
                                                 </div>
@@ -192,13 +192,19 @@
                                     <div class="card-footer">
                                         <div class="row">
                                             <div class="col-md-12">
-                                                <button class="btn btn-success float-right" type="submit">
+
+                                                <button class="btn btn-success float-right mx-1" type="submit">
                                                     <i class="fas fa-save"></i>
-                                                    เพิ่มรายการ
+                                                    บันทึก
                                                 </button>
+                                                <a href="{% url 'list_emp' %}" class="btn btn-danger float-right mx-1" >
+                                                    <i class="fas fa-times"></i>
+                                                    ยกเลิก
+                                                </a>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
                             </form>
                         </div>
                     </div>

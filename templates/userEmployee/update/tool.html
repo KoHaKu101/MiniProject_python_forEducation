@@ -70,14 +70,15 @@
                                     <div class="card-footer">
                                         <div class="row">
                                             <div class="col-md-12">
-                                                <a class="btn btn-danger " href="{% url 'list_tool' %}" >
+
+                                                <button class="btn btn-success float-right" type="submit">
+                                                    <i class="fas fa-save"></i>
+                                                    บันทึก
+                                                </button>
+                                                <a href="{% url 'list_tool' %}" class="btn btn-danger float-right mx-1">
                                                     <i class="fas fa-times"></i>
                                                     ยกเลิก
                                                 </a>
-                                                <button class="btn btn-success float-right" type="submit">
-                                                    <i class="fas fa-save"></i>
-                                                    เพิ่มรายการ
-                                                </button>
                                             </div>
                                         </div>
                                     </div>

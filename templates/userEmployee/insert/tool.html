@@ -21,16 +21,17 @@
                                 {% csrf_token %}
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col-md-3 mr-5" >
-                                            <img src="{% static 'images/notfoundimg.jpg' %}" id="imgShow" width="100%" class="mb-3">
-                                            <div class="form-group my-2" >
+                                        <div class="col-md-3 mr-5">
+                                            <img src="{% static 'images/notfoundimg.jpg' %}" id="imgShow" width="100%"
+                                                 class="mb-3">
+                                            <div class="form-group my-2">
                                                 {{ form.tool_img }}
                                             </div>
                                         </div>
                                         <div class="col-md-8">
                                             <div class="row">
                                                 <div class="col-md-12">
-                                                   <div class="form-group">
+                                                    <div class="form-group">
                                                         <label for="firstname">ชื่ออุปกรณ์</label>
                                                         {{ form.tool_name }}
                                                     </div>
@@ -53,23 +54,28 @@
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="form-group">
-                                                        <label >คำอธิบาย</label>
+                                                        <label>คำอธิบาย</label>
                                                         {{ form.tool_des }}
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                </div>
-                                <div class="card-footer">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <button class="btn btn-success float-right" type="submit">
-                                                <i class="fas fa-save"></i>
-                                                เพิ่มรายการ
-                                            </button>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="row">
+                                            <div class="col-md-12">
+
+                                                <button class="btn btn-success float-right mx-1" type="submit">
+                                                    <i class="fas fa-save"></i>
+                                                    เพิ่มรายการ
+                                                </button>
+                                                <a href="{% url 'list_tool' %}" class="btn btn-danger float-right mx-1">
+                                                    <i class="fas fa-times"></i>
+                                                    ยกเลิก
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
                             </form>
                         </div>
                     </div>
@@ -93,7 +99,7 @@
                 };
 
                 reader.readAsDataURL(input.files[0]);
-        }
             }
+        }
     </script>
 {% endblock %}

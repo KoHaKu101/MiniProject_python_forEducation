@@ -8,8 +8,6 @@ from Project_UserEmp.models import order as order_cus
 from Project_Cus.models import cus_address
 from django.db.models import Q,Sum
 from datetime import datetime
-from django.core.paginator import Paginator
-from django.shortcuts import render
 
 def emp_login(request):
     if check_login_emp(request) is True:
@@ -70,7 +68,6 @@ def list_emp(request):
     if check_login_emp(request) is False:
         return redirect('emp_login')
     data = employee.objects.all().order_by('id')
-    data = page_paganition(request, data, 10)
     search_text = ""
     if request.method == "POST":
         search_text = request.POST.get('search_text')
@@ -78,6 +75,7 @@ def list_emp(request):
             Q(first_name__icontains = search_text) | Q(sur_name__icontains = search_text) |
             Q(id__icontains=search_text)
         ).all().order_by('id')
+    data = page_paganition(request, data, 10)
     context = {'data': data,'search_text':search_text}
     return render(request, 'userEmployee/list/emp.html', context)
 def add_emp(request):
@@ -190,13 +188,13 @@ def list_appointment(request):
     if check_login_emp(request) is False:
         return redirect('emp_login')
     data = appointment.objects.all().order_by("app_permission")
-    data = page_paganition(request, data, 10)
     search_text = ""
     if request.method == "POST":
         search_text = request.POST.get('search_text')
         data = appointment.objects.filter(
             Q(app_id__icontains=search_text) | Q(app_name__icontains=search_text) ).all().order_by(
             "app_id")
+    data = page_paganition(request, data, 10)
     context = {'data': data, 'search_text': search_text}
     return  render(request, 'userEmployee/list/appointment.html', context)
 def add_appointment(request):
@@ -259,11 +257,11 @@ def list_department(request):
     if check_login_emp(request) is False:
         return redirect('emp_login')
     data = department.objects.all().order_by("dep_id")
-    data = page_paganition(request, data, 10)
     search_text = ""
     if request.method == "POST":
         search_text = request.POST.get('search_text')
         data = department.objects.filter(Q(dep_id__icontains=search_text)|Q(dep_name_th=search_text)|Q(dep_name_en=search_text)).all().order_by("dep_id")
+    data = page_paganition(request, data, 10)
     context = {'data': data, 'search_text': search_text}
     return  render(request, 'userEmployee/list/department.html', context)
 def add_department(request):
@@ -326,7 +324,7 @@ def list_tool(request):
     if check_login_emp(request) is False:
         return redirect('emp_login')
     data = tool.objects.all().order_by('tool_id')
-    data = page_paganition(request, data, 10)
+
     search_text = ""
     if request.method == "POST":
         search_text = request.POST.get('search_text')
@@ -334,6 +332,7 @@ def list_tool(request):
             Q(tool_name__icontains = search_text) | Q(tool_id__icontains = search_text) |
             Q(tool_type__tooly_name__icontains=search_text)
         ).all().order_by('tool_id')
+    data = page_paganition(request, data, 10)
     context = {'data': data,'search_text':search_text}
     return render(request, 'userEmployee/list/tool.html', context)
 def add_tool(request) :
@@ -346,29 +345,20 @@ def add_tool(request) :
             get_form = form.save(commit=False)
             id = tool.objects.values_list('tool_id', flat=True).last()
             tool_id = id_generate("tool",id)
-
             filepath = get_form.tool_img.name
-            if filepath != "":
-                filepath = get_form.tool_img.name
-                position_number = filepath.rfind('.')
-                ext = filepath[position_number:]
-
-                filepath_name = filepath.split('/')
-                old_name = filepath_name[len(filepath_name) - 1]
-                new_name = tool_id + ext
-                get_form.tool_id = tool_id
-                get_form.save()
-
-                tools = get_object_or_404(tool, tool_id=tool_id)
-                tools.tool_img.name = '/images/tool/' + new_name
-                tools.save()
-
-                if os.path.exists('static/images/tool/' + new_name):
-                    os.remove('static/images/tool/' + new_name)
-                os.rename('static/images/tool/' + old_name, 'static/images/tool/' + new_name)
-            else:
-                get_form.tool_id = tool_id
-                get_form.save()
+            position_number = filepath.rfind('.')
+            ext = filepath[position_number:]
+            filepath_name = filepath.split('/')
+            old_name = filepath_name[len(filepath_name) - 1]
+            new_name = tool_id + ext
+            get_form.tool_id = tool_id
+            get_form.save()
+            tools = get_object_or_404(tool, tool_id=tool_id)
+            tools.tool_img.name = '/images/tool/' + new_name
+            tools.save()
+            if os.path.exists('static/images/tool/' + new_name):
+                os.remove('static/images/tool/' + new_name)
+            os.rename('static/images/tool/' + old_name, 'static/images/tool/' + new_name)
             return redirect('list_tool')
     context = {'form':form}
     return render(request,'userEmployee/insert/tool.html',context)
@@ -433,13 +423,13 @@ def list_tooltype(request):
     if check_login_emp(request) is False:
         return redirect('emp_login')
     data = tooltype.objects.all().order_by("tooly_id")
-    data = page_paganition(request, data, 10)
     search_text = ""
     if request.method == "POST":
         search_text = request.POST.get('search_text')
         data = tooltype.objects.filter(
             Q(tooly_name__icontains=search_text) | Q(tooly_id__icontains=search_text)
         ).all().order_by('tooly_id')
+    data = page_paganition(request, data, 10)
     context = {'data': data, 'search_text': search_text}
     return  render(request, 'userEmployee/list/tooltype.html', context)
 def add_tooltype(request):
@@ -501,11 +491,11 @@ def list_order(request):
     if check_login_emp(request) is False:
         return redirect('emp_login')
     data = order.objects.all().order_by("order_status")
-    data = page_paganition(request, data, 10)
     search_text = ""
     if request.method == "POST":
         search_text = request.POST.get('search_text')
         data = order.objects.filter(order_id__icontains= search_text).all().order_by("order_status")
+    data = page_paganition(request, data, 10)
     context = {'data':data,'search_text':search_text}
     return render(request,'userEmployee/list/order.html',context)
 def view_order(request,order_id):
@@ -657,7 +647,7 @@ def setting(request):
         form = settingForm(data= request.POST,instance=setting)
         if form.is_valid():
             form = form.save()
-    form = settingForm(instance=setting)
+        form = settingForm(instance=setting)
     context = {'form':form}
     return render(request,'userEmployee/setting.html',context)
 

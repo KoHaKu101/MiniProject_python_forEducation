@@ -66,11 +66,13 @@
                                                     {% endif %}
                                                     <td class="text-left ">
                                                         <a href="{% url 'pay_detail' key.order_rec_id %}"class="btn btn-info mr-3">
+                                                            <i class="fas fa-solid fa-magnifying-glass"></i>
                                                             ดูข้อมูล
                                                         </a>
                                                         {% if key.pay_status == '3' %}
                                                                 <a href="{% url 'report_pay' key.order_rec_id %}" target="_blank"
                                                                    class="btn btn-success">
+                                                                <i class="fas fa-solid fa-print"></i>
                                                                     พิมพ์สลิป
                                                                 </a>
                                                         {% endif %}
